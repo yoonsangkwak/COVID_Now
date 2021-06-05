@@ -7,5 +7,10 @@
     <fragment
         android:id="@+id/covidChartFragment"
         android:name="site.yoonsang.covidnow.view.CovidChartFragment"
-        android:label="CovidChartFragment" />
+        android:label="CovidChartFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/covidLocationFragment"
+        android:name="site.yoonsang.covidnow.view.CovidLocationFragment"
+        android:label="CovidLocationFragment" />
 </navigation>
