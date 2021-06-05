@@ -35,13 +35,18 @@ class CovidChartFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.getCovidResponse()
+        viewModel.getRegionCovidResponse()
 
-        viewModel.toastMessage.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        viewModel.toastMessage.observe(viewLifecycleOwner) { toast ->
+            Toast.makeText(requireContext(), toast, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.covidInfo.observe(viewLifecycleOwner) {
-            binding.covidInfo = it
+        viewModel.covidInfo.observe(viewLifecycleOwner) { covidInfo ->
+            binding.covidInfo = covidInfo
+        }
+
+        viewModel.regionCovidInfo.observe(viewLifecycleOwner) { regionCovidInfo ->
+            binding.regionCovidInfo = regionCovidInfo
         }
     }
 
