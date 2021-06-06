@@ -8,9 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import site.yoonsang.covidnow.R
 import site.yoonsang.covidnow.databinding.FragmentCovidChartBinding
+import site.yoonsang.covidnow.model.CovidInfo
 import site.yoonsang.covidnow.viewmodel.CovidViewModel
 
 @AndroidEntryPoint
@@ -43,10 +49,49 @@ class CovidChartFragment : Fragment() {
 
         viewModel.covidInfo.observe(viewLifecycleOwner) { covidInfo ->
             binding.covidInfo = covidInfo
+            setPieChart(covidInfo)
         }
 
         viewModel.regionCovidInfo.observe(viewLifecycleOwner) { regionCovidInfo ->
             binding.regionCovidInfo = regionCovidInfo
+        }
+    }
+
+    private fun setPieChart(covidInfo: CovidInfo) {
+        val entryList = mutableListOf<PieEntry>()
+        entryList.add(PieEntry(covidInfo.city1p.toFloat(), covidInfo.city1n))
+        entryList.add(PieEntry(covidInfo.city2p.toFloat(), covidInfo.city2n))
+        entryList.add(PieEntry(covidInfo.city3p.toFloat(), covidInfo.city3n))
+        entryList.add(PieEntry(covidInfo.city4p.toFloat(), covidInfo.city4n))
+        entryList.add(PieEntry(covidInfo.city5p.toFloat(), covidInfo.city5n))
+        val colorList = mutableListOf<Int>()
+        colorList.add(requireContext().getColor(R.color.city1))
+        colorList.add(requireContext().getColor(R.color.city2))
+        colorList.add(requireContext().getColor(R.color.city3))
+        colorList.add(requireContext().getColor(R.color.city4))
+        colorList.add(requireContext().getColor(R.color.city5))
+        val pieDataSet = PieDataSet(entryList, "시도별 발생현황")
+        pieDataSet.apply {
+            sliceSpace = 1f
+            selectionShift = 0f
+            colors = colorList
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return ""
+                }
+            }
+        }
+        val pieData = PieData(pieDataSet)
+        binding.regionPieChart.apply {
+            data = pieData
+            isDrawHoleEnabled = true
+            holeRadius = 50f
+            transparentCircleRadius = 10f
+            setDrawEntryLabels(false)
+            legend.isEnabled = false
+            description = null
+            animateY(1000, Easing.EaseOutCubic)
+            invalidate()
         }
     }
 
