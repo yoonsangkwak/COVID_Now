@@ -1,6 +1,6 @@
 package site.yoonsang.covidnow.repository
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import site.yoonsang.covidnow.model.CovidInfo
 import site.yoonsang.covidnow.model.RegionCovidInfo
 import site.yoonsang.covidnow.network.CovidApi
@@ -12,9 +12,9 @@ class CovidRepository @Inject constructor(
     private val covidApi: CovidApi
 ) {
 
-    fun getCovidInfo(serviceKey: String): Observable<CovidInfo> =
+    fun getCovidInfo(serviceKey: String): Single<CovidInfo> =
         covidApi.getCovidInfo(serviceKey)
 
-    fun getRegionCovidInfo(serviceKey: String): Observable<RegionCovidInfo> =
+    fun getRegionCovidInfo(serviceKey: String): Single<RegionCovidInfo> =
         covidApi.getRegionCovidInfo(serviceKey)
 }

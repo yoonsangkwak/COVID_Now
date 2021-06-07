@@ -1,6 +1,6 @@
 package site.yoonsang.covidnow.network
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import site.yoonsang.covidnow.model.CovidInfo
@@ -15,10 +15,10 @@ interface CovidApi {
     @GET("/korea")
     fun getCovidInfo(
         @Query("serviceKey") serviceKey: String
-    ): Observable<CovidInfo>
+    ): Single<CovidInfo>
 
     @GET("/korea/country/new")
     fun getRegionCovidInfo(
         @Query("serviceKey") serviceKey: String
-    ): Observable<RegionCovidInfo>
+    ): Single<RegionCovidInfo>
 }
