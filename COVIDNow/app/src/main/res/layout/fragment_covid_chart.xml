@@ -21,7 +21,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -102,10 +103,11 @@
                                 tools:text="123,456" />
 
                             <TextView
+                                android:id="@+id/total_covid_before_case"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/eland"
-                                android:text="@{`(+` + covidInfo.totalCaseBefore + `명)`}"
+                                android:text="@{`(+` + regionCovidInfo.korea.newCase + `명)`}"
                                 android:textColor="@color/white"
                                 android:textSize="12sp"
                                 tools:text="(+363)" />
@@ -205,7 +207,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/total_check_layout"
+                            android:id="@+id/total_case_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -218,23 +220,23 @@
                             android:padding="8dp">
 
                             <TextView
-                                android:id="@+id/total_check_tv"
+                                android:id="@+id/total_case_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="4dp"
                                 android:fontFamily="@font/eland"
-                                android:text="국내 검사자"
+                                android:text="국내 격리자"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/total_check_count_tv"
+                                android:id="@+id/total_case_count_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
                                 android:fontFamily="@font/eland"
-                                android:text="@{covidInfo.totalChecking + `명`}"
+                                android:text="@{covidInfo.nowCase + `명`}"
                                 android:textColor="@color/white"
                                 tools:text="3,456" />
 
@@ -242,7 +244,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/eland"
-                                android:text="@{`(` + covidInfo.checkingCounter + `명 검사중)`}"
+                                setCaseBefore="@{covidInfo.totalCaseBefore}"
                                 android:textColor="@color/white"
                                 android:textSize="12sp"
                                 tools:text="(+123)" />
@@ -527,10 +529,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -538,16 +541,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.korea.totalCase + `명(+` + regionCovidInfo.korea.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123명 (+123명)" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.korea.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.korea.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -557,6 +598,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -567,10 +609,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -578,16 +622,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.seoul.totalCase + `명(+` + regionCovidInfo.seoul.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.seoul.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.seoul.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -597,6 +679,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -608,10 +691,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -619,16 +703,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.busan.totalCase + `명(+` + regionCovidInfo.busan.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.busan.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.busan.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -638,6 +760,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -649,10 +772,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -660,16 +785,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.daegu.totalCase + `명(+` + regionCovidInfo.daegu.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.daegu.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.daegu.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -679,6 +842,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -690,10 +854,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -701,16 +866,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.incheon.totalCase + `명(+` + regionCovidInfo.incheon.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.incheon.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.incheon.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -720,6 +923,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -731,10 +935,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -742,16 +948,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.gwangju.totalCase + `명(+` + regionCovidInfo.gwangju.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.gwangju.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.gwangju.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -761,6 +1005,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -772,10 +1017,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -783,16 +1029,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.daejeon.totalCase + `명(+` + regionCovidInfo.daejeon.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.daejeon.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.daejeon.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -802,6 +1086,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -813,10 +1098,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -824,16 +1111,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.ulsan.totalCase + `명(+` + regionCovidInfo.ulsan.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.ulsan.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.ulsan.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -843,6 +1168,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -854,10 +1180,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -865,16 +1192,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.sejong.totalCase + `명(+` + regionCovidInfo.sejong.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.sejong.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.sejong.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -884,6 +1249,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -895,10 +1261,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -906,16 +1274,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.gyeonggi.totalCase + `명(+` + regionCovidInfo.gyeonggi.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.gyeonggi.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.gyeonggi.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -925,6 +1331,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -936,10 +1343,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -947,16 +1355,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.gangwon.totalCase + `명(+` + regionCovidInfo.gangwon.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.gangwon.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.gangwon.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -966,6 +1412,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -977,10 +1424,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -988,16 +1437,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.chungbuk.totalCase + `명(+` + regionCovidInfo.chungbuk.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.chungbuk.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.chungbuk.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1007,6 +1494,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1018,10 +1506,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1029,16 +1518,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.chungnam.totalCase + `명(+` + regionCovidInfo.chungnam.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.chungnam.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.chungnam.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1048,6 +1575,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1059,10 +1587,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1070,16 +1600,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.jeonbuk.totalCase + `명(+` + regionCovidInfo.jeonbuk.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.jeonbuk.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.jeonbuk.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1089,6 +1657,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1100,10 +1669,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1111,16 +1681,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.jeonnam.totalCase + `명(+` + regionCovidInfo.jeonnam.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.jeonnam.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.jeonnam.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1130,6 +1738,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1141,10 +1750,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1152,16 +1763,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.gyeongbuk.totalCase + `명(+` + regionCovidInfo.gyeongbuk.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.gyeongbuk.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.gyeongbuk.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1171,6 +1820,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1182,10 +1832,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1193,16 +1844,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.gyeongnam.totalCase + `명(+` + regionCovidInfo.gyeongnam.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.gyeongnam.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.gyeongnam.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1212,6 +1901,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1223,10 +1913,12 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:background="@color/table_gray"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1234,16 +1926,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.jeju.totalCase + `명(+` + regionCovidInfo.jeju.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.jeju.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.jeju.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1253,6 +1983,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1264,10 +1995,11 @@
                     </TableRow>
 
                     <TableRow
-                        android:layout_marginVertical="4dp"
-                        android:padding="4dp">
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="12dp">
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1275,16 +2007,54 @@
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:fontFamily="@font/eland"
                             android:gravity="center"
-                            android:text="@{regionCovidInfo.quarantine.totalCase + `명(+` + regionCovidInfo.quarantine.newCase + `명)`}"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            tools:text="123,123" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/eland"
+                                android:text="@{regionCovidInfo.quarantine.totalCase + `명`}"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="123,123명" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:background="@drawable/increase_background"
+                                android:orientation="horizontal"
+                                android:padding="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/eland"
+                                    android:text="@{regionCovidInfo.quarantine.newCase}"
+                                    android:textColor="@color/increase"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="123" />
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_up_arrow"
+                                    app:tint="@color/increase" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"
@@ -1294,6 +2064,7 @@
                             tools:text="1,123" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:fontFamily="@font/eland"
                             android:gravity="center"

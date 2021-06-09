@@ -84,8 +84,11 @@ class CovidChartFragment : Fragment() {
         val pieData = PieData(pieDataSet)
         binding.regionPieChart.apply {
             data = pieData
+            centerText = "시도별 발생현황"
+            setCenterTextSize(12f)
+            setCenterTextColor(requireContext().getColor(R.color.dark_gray))
             isDrawHoleEnabled = true
-            holeRadius = 50f
+            holeRadius = 80f
             transparentCircleRadius = 10f
             setDrawEntryLabels(false)
             legend.isEnabled = false
