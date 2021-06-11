@@ -29,6 +29,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "COVID_KEY", properties['COVID_KEY'])
+        buildConfigField("String", "KAKAO_REST_KEY", properties['KAKAO_REST_KEY'])
     }
 
     buildTypes {
@@ -76,6 +77,7 @@ dependencies {
 
     // Paging 3
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    implementation "androidx.paging:paging-rxjava3:$pagingVersion"
 
     // Room components
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -102,4 +104,7 @@ dependencies {
     
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // Dexter
+    implementation 'com.karumi:dexter:6.2.2'
 }

@@ -35,14 +35,14 @@ class CovidViewModel @Inject constructor(
         compositeDisposable.add(
             repository.getCovidInfo(BuildConfig.COVID_KEY)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    if (it != null) {
-                        _covidInfo.postValue(it)
+                .subscribe({ covidInfo ->
+                    if (covidInfo != null) {
+                        _covidInfo.postValue(covidInfo)
                     } else {
                         _toastMessage.postValue("데이터 조회에 실패했습니다.")
                     }
-                }, {
-                    _toastMessage.postValue(it.message ?: "통신 오류")
+                }, { t ->
+                    _toastMessage.postValue(t.message ?: "통신 오류")
                 })
         )
     }
