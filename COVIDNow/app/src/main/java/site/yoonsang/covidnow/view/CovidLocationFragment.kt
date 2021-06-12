@@ -28,11 +28,11 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import site.yoonsang.covidnow.R
 import site.yoonsang.covidnow.databinding.FragmentCovidLocationBinding
 import site.yoonsang.covidnow.viewmodel.LocationViewModel
-
 
 @AndroidEntryPoint
 class CovidLocationFragment : Fragment(), PermissionListener {
@@ -60,8 +60,8 @@ class CovidLocationFragment : Fragment(), PermissionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = LocationAdapter()
-        binding.locationRecyclerView.adapter = adapter
+        val locationAdapter = LocationAdapter()
+        binding.locationRecyclerView.adapter = locationAdapter
 
         binding.locationMyLocation.setOnClickListener {
             val permissionCheck = ContextCompat.checkSelfPermission(
@@ -84,10 +84,9 @@ class CovidLocationFragment : Fragment(), PermissionListener {
             showToastMsg(it)
         }
 
-        viewModel.document.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                Log.d("checkkk", "it $it")
-                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        viewModel.document.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                locationAdapter.submitData(viewLifecycleOwner.lifecycle, data)
             }
         }
     }
@@ -101,27 +100,19 @@ class CovidLocationFragment : Fragment(), PermissionListener {
 
     @SuppressLint("MissingPermission")
     override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-
-
         response?.let {
             showToastMsg(it.permissionName)
         }
-
-        Log.d("checkkk", "gg")
     }
 
     override fun onPermissionDenied(response: PermissionDeniedResponse?) {
         showToastMsg("해당 기능을 이용하기 위해선 접근 권한이 필요합니다.")
-        Log.d("checkkk", "dd")
-
     }
 
     override fun onPermissionRationaleShouldBeShown(
         response: PermissionRequest?,
         token: PermissionToken?
     ) {
-        Log.d("checkkk", "ss")
-
         Toast.makeText(requireContext(), "hi ${response?.name}", Toast.LENGTH_SHORT)
             .show()
         showSettingsDialog()

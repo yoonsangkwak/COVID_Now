@@ -12,7 +12,7 @@ class LocationPagingSource(
     private val kakaoApi: KakaoApi,
     private val x: String,
     private val y: String
-): PagingSource<Int, Document>() {
+) : PagingSource<Int, Document>() {
 
     override fun getRefreshKey(state: PagingState<Int, Document>): Int? {
         return state.anchorPosition
@@ -24,12 +24,13 @@ class LocationPagingSource(
             val response = kakaoApi.getLocationResponse(
                 x = x,
                 y = y,
-                page = position
-            ).body()
-            val documents = response?.documents
+                page = position,
+                size = Constants.ITEM_MEMBERS_IN_PAGE
+            )
+            val documents = response.documents
 
             LoadResult.Page(
-                data = documents!!,
+                data = documents,
                 prevKey = if (position == Constants.STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = if (documents.size < Constants.ITEM_MEMBERS_IN_PAGE) null else position + 1
             )
@@ -40,3 +41,5 @@ class LocationPagingSource(
         }
     }
 }
+
+
