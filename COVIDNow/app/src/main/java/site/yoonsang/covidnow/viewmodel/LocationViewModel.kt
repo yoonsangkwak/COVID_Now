@@ -1,10 +1,12 @@
 package site.yoonsang.covidnow.viewmodel
 
 import androidx.lifecycle.*
-import androidx.paging.cachedIn
+import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import site.yoonsang.covidnow.model.Document
 import site.yoonsang.covidnow.repository.LocationRepository
-import site.yoonsang.covidnow.util.DoubleTrigger
 import javax.inject.Inject
 
 @HiltViewModel
@@ -12,24 +14,30 @@ class LocationViewModel @Inject constructor(
     private val repository: LocationRepository
 ) : ViewModel() {
 
+    private val compositeDisposable = CompositeDisposable()
+
     private val _toastMessage = MutableLiveData<String>()
     val toastMessage: LiveData<String>
         get() = _toastMessage
 
-    private val x = MutableLiveData<String>()
-    private val y = MutableLiveData<String>()
+    private val _document = MutableLiveData<PagingData<Document>>()
+    val document: LiveData<PagingData<Document>>
+        get() = _document
 
-    init {
-        x.value = ""
-        y.value = ""
+    fun getLocationResponse(x: String, y: String) {
+        compositeDisposable.add(
+            repository.getLocationResponse(x, y)
+                .subscribeOn(Schedulers.io())
+                .subscribe({ data ->
+                    _document.postValue(data)
+                }, { t ->
+                    _toastMessage.postValue(t.message ?: "통신 오류")
+                })
+        )
     }
 
-    val document = Transformations.switchMap(DoubleTrigger(x, y)) {
-        repository.getLocationResponse(it.first!!, it.second!!).cachedIn(viewModelScope)
-    }
-
-    fun getLocationResponse(lon: String, lat: String) {
-        x.postValue(lon)
-        y.postValue(lat)
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 }

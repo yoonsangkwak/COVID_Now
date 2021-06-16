@@ -2,7 +2,7 @@ package site.yoonsang.covidnow.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.liveData
+import androidx.paging.rxjava3.observable
 import site.yoonsang.covidnow.network.KakaoApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,5 +21,5 @@ class LocationRepository @Inject constructor(
             pagingSourceFactory = {
                 LocationPagingSource(kakaoApi, x, y)
             }
-        ).liveData
+        ).observable
 }
