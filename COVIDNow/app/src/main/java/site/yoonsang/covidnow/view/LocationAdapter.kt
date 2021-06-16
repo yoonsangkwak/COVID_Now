@@ -27,11 +27,6 @@ class LocationAdapter : PagingDataAdapter<Document, LocationAdapter.ViewHolder>(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(document: Document) {
             binding.document = document
-            if (document.phone != "") {
-                binding.phone = document.phone
-            } else {
-                binding.phone = "전화번호 정보 없음"
-            }
             binding.executePendingBindings()
         }
     }

@@ -8,10 +8,8 @@ import site.yoonsang.covidnow.network.KakaoApi
 import site.yoonsang.covidnow.util.Constants
 import java.io.IOException
 
-class LocationPagingSource(
-    private val kakaoApi: KakaoApi,
-    private val x: String,
-    private val y: String
+class LocationDefaultPagingSource(
+    private val kakaoApi: KakaoApi
 ) : PagingSource<Int, Document>() {
 
     override fun getRefreshKey(state: PagingState<Int, Document>): Int? {
@@ -22,11 +20,8 @@ class LocationPagingSource(
         val position = params.key ?: Constants.STARTING_PAGE_INDEX
         return try {
             val response = kakaoApi.getLocationResponse(
-                x = x,
-                y = y,
                 page = position,
-                size = Constants.ITEM_MEMBERS_IN_PAGE,
-                sort = Constants.SORT_DISTANCE
+                size = Constants.ITEM_MEMBERS_IN_PAGE
             )
             val documents = response.documents
 
@@ -42,5 +37,3 @@ class LocationPagingSource(
         }
     }
 }
-
-

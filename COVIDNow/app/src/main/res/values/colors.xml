@@ -21,4 +21,5 @@
     <color name="increase">#ED6582</color>
     <color name="table_gray">#F5F5F5</color>
     <color name="dark_gray">#565656</color>
+    <color name="select_color">#065FD4</color>
 </resources>

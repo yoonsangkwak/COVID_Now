@@ -22,4 +22,15 @@ class LocationRepository @Inject constructor(
                 LocationPagingSource(kakaoApi, x, y)
             }
         ).observable
+
+    fun getDefaultLocation() =
+        Pager(
+            config = PagingConfig(
+                pageSize = 5,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                LocationDefaultPagingSource(kakaoApi)
+            }
+        ).observable
 }

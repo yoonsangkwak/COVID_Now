@@ -2,7 +2,6 @@ package site.yoonsang.covidnow.view
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,29 +9,19 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import dagger.hilt.android.AndroidEntryPoint
 import site.yoonsang.covidnow.R
 import site.yoonsang.covidnow.databinding.FragmentCovidLocationBinding
-import site.yoonsang.covidnow.util.Constants
 import site.yoonsang.covidnow.viewmodel.LocationViewModel
 
 @AndroidEntryPoint
@@ -73,6 +62,8 @@ class CovidLocationFragment : Fragment() {
 
         val locationAdapter = LocationAdapter()
         binding.locationRecyclerView.adapter = locationAdapter
+
+        viewModel.getDefaultLocation()
 
         binding.locationMyLocation.setOnClickListener {
             val permissionCheck = ContextCompat.checkSelfPermission(

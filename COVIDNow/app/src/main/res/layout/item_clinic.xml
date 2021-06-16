@@ -8,6 +8,7 @@
         <variable
             name="document"
             type="site.yoonsang.covidnow.model.Document" />
+
         <variable
             name="phone"
             type="String" />
@@ -33,10 +34,10 @@
 
         <TextView
             android:id="@+id/clinic_distance"
+            setDistance="@{document.distance}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/eland"
-            android:text="@{document.distance + `m`}"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/clinic_phone"
@@ -75,10 +76,10 @@
 
         <TextView
             android:id="@+id/clinic_phone"
+            setPhone="@{document.phone}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/eland"
-            android:text="@{phone}"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

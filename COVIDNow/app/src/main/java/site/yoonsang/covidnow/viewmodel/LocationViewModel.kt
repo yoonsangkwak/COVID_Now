@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import site.yoonsang.covidnow.model.Document
 import site.yoonsang.covidnow.repository.LocationRepository
 import javax.inject.Inject
@@ -27,6 +28,18 @@ class LocationViewModel @Inject constructor(
     fun getLocationResponse(x: String, y: String) {
         compositeDisposable.add(
             repository.getLocationResponse(x, y)
+                .subscribeOn(Schedulers.io())
+                .subscribe({ data ->
+                    _document.postValue(data)
+                }, { t ->
+                    _toastMessage.postValue(t.message ?: "통신 오류")
+                })
+        )
+    }
+
+    fun getDefaultLocation() {
+        compositeDisposable.add(
+            repository.getDefaultLocation()
                 .subscribeOn(Schedulers.io())
                 .subscribe({ data ->
                     _document.postValue(data)
