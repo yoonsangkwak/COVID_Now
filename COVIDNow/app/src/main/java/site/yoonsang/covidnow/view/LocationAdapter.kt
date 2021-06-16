@@ -1,6 +1,5 @@
 package site.yoonsang.covidnow.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -46,9 +45,6 @@ class LocationAdapter : PagingDataAdapter<Document, LocationAdapter.ViewHolder>(
         val item = getItem(position)
         if (item != null) {
             holder.bind(item)
-            Log.d("checkkk", "item ${item.placeName}")
-        } else {
-            Log.d("checkkk", "item null $position")
         }
     }
 }
